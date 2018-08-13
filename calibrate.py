@@ -112,8 +112,8 @@ def Check_quality(PATH,dates,savepath=False):
     sb.heatmap(np.log10(temp), cmap='YlGnBu', yticklabels=400)
     plt.xlabel('Days')
     plt.ylabel('Frequency (MHz)')
-    plt.show()
     if savepath != False:
         plt.savefig(savepath+'data_%s_%s.png'%(Date_0,Date_1))
+    plt.show()
     
     
