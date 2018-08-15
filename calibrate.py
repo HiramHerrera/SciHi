@@ -107,13 +107,14 @@ def Check_quality(PATH,dates,savepath=False):
     savepath: Path to save the figure
     """
     Temps = pd.read_hdf(PATH)
+    Temps.index = Temps.index.values.round(2)
     Date_0,Date_1 = dates
     temp = Temps.loc[:,Date_0:Date_1]
     sb.heatmap(np.log10(temp), cmap='YlGnBu', yticklabels=400)
     plt.xlabel('Days')
     plt.ylabel('Frequency (MHz)')
     if savepath != False:
-        plt.savefig(savepath+'data_%s_%s.png'%(Date_0,Date_1))
+        plt.savefig(savepath+'data_%s_%s.png'%(Date_0,Date_1),bbox_inches='tight')
     plt.show()
     
     
