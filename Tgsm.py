@@ -57,7 +57,7 @@ def pattern(time,Freq,lon = -118.3011,lat = 28.9733):
     lon: Default longitude is given for Isla de Guadalupe at -118.3011 degrees
     lat: Default latitude is given for Isla de Guadalupe at 28.9733 degrees
     """
-    Data = pd.read_hdf("antenna_beam/0%dMHz.hdf5"%Freq)
+    Data = pd.read_hdf("antenna_beam/0%dMHz.hdf5"%Freq) #Change path if beam pattern is changed
     t = Time(time, location =(lon,lat))
     LST = t.sidereal_time('mean').degree
     theta,phi = np.radians(Data.values[:,0]),np.radians(Data.values[:,1])
@@ -127,7 +127,7 @@ def T_gsm(time,freqs=(50,90),bins=20,days=1):
     
     Freqs = np.arange(freqs[0],freqs[1]+1)
     t0 = Time(time)
-    dt = bins*u.min # Modify if needed
+    dt = bins*u.min # Modify unit of time interval if needed
     DT = dt.to(u.hour)
     times = t0 + DT*np.arange(0,days*24/DT.value)
     data = np.zeros([len(Freqs),len(times)])

@@ -62,8 +62,8 @@ def Calibrate(PATHS,dates,calibration = 'Chisq'):
     T_meas = np.zeros(np.shape(T_gsm))
     T_std = np.zeros(np.shape(T_gsm))
     for i in range(bins):
-        T_meas[:,i] = np.mean(Temp_binfreq[:,i:i+25], axis =1)
-        T_std[:,i] = np.std(Temp_binfreq[:,i:i+25], axis =1)
+        T_meas[:,i] = np.mean(Temp_binfreq[:,25*i:25*(i+1)], axis =1)
+        T_std[:,i] = np.std(Temp_binfreq[:,25*i:25*(i+1)], axis =1)
     
     if calibration=='Chisq':
         def Chisq(k,Tmeas,Tgsm, error):
@@ -86,12 +86,13 @@ def Calibrate(PATHS,dates,calibration = 'Chisq'):
         K_meas = np.zeros(np.shape(T_gsm))
         
         for i in range(bins):
-            K_meas[:,i] = np.mean(Kjnc_binfreq[:,i:i+25], axis =1)
+            K_meas[:,i] = np.mean(Kjnc_binfreq[:,25*i:25*(i+1)], axis =1)
         K = np.mean(K_meas,axis=1)
 
     Tgsm = np.mean(T_gsm,axis=1)
     Tmeas = np.mean(T_meas,axis=1)
-    return K,Tgsm,Tmeas,T_std
+    Tstd = np.mean(T_std,axis=1)
+    return K,Tgsm,Tmeas,Tstd
 
 def Check_quality(PATH,dates,savepath=False):
     """
