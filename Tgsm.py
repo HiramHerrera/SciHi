@@ -37,7 +37,7 @@ def trajectory(time,lon = -118.3011,lat = 28.9733):
     b = coords.galactic.b.degree
     return l,b
 
-def pattern(time,Freq,lon = -118.3011,lat = 28.9733):
+def pattern(time,Freq,PATH="antenna_beam",lon = -118.3011,lat = 28.9733):
     """
     Calculates the beam pattern for the antenna at a given time.
     Returns an array of l and b galactic coordinates values in degrees of the antenna pattern, 
@@ -54,10 +54,14 @@ def pattern(time,Freq,lon = -118.3011,lat = 28.9733):
     Freq: Frequency of the antenna beam in MHz.
     
     Optional parameters:
+    PATH:Folder where the pattern is stored, note that the files within this folder
+         must be named with its frequency, for example 70MHz.hdf5.
+         
+         Default is antenna_beam.
     lon: Default longitude is given for Isla de Guadalupe at -118.3011 degrees
     lat: Default latitude is given for Isla de Guadalupe at 28.9733 degrees
     """
-    Data = pd.read_hdf("antenna_beam/0%dMHz.hdf5"%Freq) #Change path if beam pattern is changed
+    Data = pd.read_hdf(PATH+"/0%dMHz.hdf5"%Freq) #Change path if beam pattern is changed
     t = Time(time, location =(lon,lat))
     LST = t.sidereal_time('mean').degree
     theta,phi = np.radians(Data.values[:,0]),np.radians(Data.values[:,1])
