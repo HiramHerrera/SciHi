@@ -54,12 +54,13 @@ def pattern(time,Freq,PATH="antenna_beam",lon = -118.3011,lat = 28.9733):
     Freq: Frequency of the antenna beam in MHz.
     
     Optional parameters:
-    PATH:Folder where the pattern is stored, note that the files within this folder
-         must be named with its frequency, for example 70MHz.hdf5.
+    PATH: Folder where the pattern is stored, note that the files within this folder
+          must be named with its frequency, for example 70MHz.hdf5.
          
          Default is antenna_beam.
+         
     lon: Default longitude is given for Isla de Guadalupe at -118.3011 degrees
-    lat: Default latitude is given for Isla de Guadalupe at 28.9733 degrees
+    lat: Default latitud is given for Isla de Guadalupe at 28.9733 degrees
     """
     Data = pd.read_hdf(PATH+"/0%dMHz.hdf5"%Freq) #Change path if beam pattern is changed
     t = Time(time, location =(lon,lat))
