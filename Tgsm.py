@@ -85,7 +85,7 @@ def pattern(time,Freq,PATH="antenna_beam",lon = -118.3011,lat = 28.9733):
     Temp = Radio_source_trans(dB,Freq,1e6)
     return l,b,Temp
 
-def convolve(time,Freq):
+def convolve(time,Freq,PATH="antenna_beam"):
     """
     Convolves the antenna beam pattern with the gsm map of the galaxy for a given frequenacy.
     Returns the convolved temperature of the gsm.
@@ -96,22 +96,32 @@ def convolve(time,Freq):
         
         
          WARNING: Make sure that time is in UTC.
+    Optional parameters:
+    PATH: Folder where the pattern is stored, note that the files within this folder
+          must be named with its frequency, for example 70MHz.hdf5.
          
+         Default is antenna_beam.         
          
     Freq: Frequency desired in MHz.
+    
+    Optional parameters:
+    PATH: Folder where the pattern is stored, note that the files within this folder
+          must be named with its frequency, for example 70MHz.hdf5.
+         
+         Default is antenna_beam.
     """
     nside = 32
     Data = pd.read_hdf("gsm_maps/gsm_%dMHz.hdf5"%Freq)
     bmap_gal = Data.values[:,0]
     bmap_gal2 = hp.ud_grade(bmap_gal,nside)
-    l,b,Temp = pattern(time,Freq)
+    l,b,Temp = pattern(time,Freq,PATH)
     pix = hp.ang2pix(nside,l, b, lonlat=True)
     bmap_pat = np.zeros(hp.nside2npix(nside))
     bmap_pat[pix] = Temp
     T_gsm = sum(bmap_gal2*bmap_pat)/sum(bmap_pat)
     return T_gsm
 
-def T_gsm(time,freqs=(50,90),bins=20,days=1):
+def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam"):
     """
     Provides a table of the convolved temperature of the GSM map with the 
     Antenna beam pattern for a full day of observation, in a range of frequencies.
@@ -123,6 +133,10 @@ def T_gsm(time,freqs=(50,90),bins=20,days=1):
             WARNING: Make sure that time is in UTC.
     
     Optional parameters:
+    PATH: Folder where the pattern is stored, note that the files within this folder
+          must be named with its frequency, for example 70MHz.hdf5.
+         
+         Default is antenna_beam.
     freqs: Range of frequencies, must be a tuple with initial frequency and final frequency.
            Default is 50-90
     
