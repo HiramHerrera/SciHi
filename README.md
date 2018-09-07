@@ -35,7 +35,7 @@ Also to run these codes and notebooks you will need [pygsm](https://github.com/t
 
 ```
 git clone https://github.com/telegraphic/PyGSM
-cd PyGSM
+cd PyGSM/
 python setup.py install
 ```
 
