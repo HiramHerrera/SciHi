@@ -29,18 +29,24 @@ seaborn                   0.9.0
 
 All of these libraries, except for healpy are within the Anaconda instalation but if needed they may be installed using conda with the usual command:
 
-~$ conda install packagename
+'''
+conda install packagename
+'''
 
 To install healpy just run the following commands:
 
-~$ conda config --add channels conda-forge
-~$ conda install healpy
+'''
+conda config --add channels conda-forge
+conda install healpy
+'''
 
 Also theres a library needed to run these notebooks and codes, which is named pygsm go to https://github.com/telegraphic/PyGSM for more detailes, or if you jusst want to install this library run the following commands:
 
-~$ git clone https://github.com/telegraphic/PyGSM
-~$ cd PyGSM
-~$ python setup.py install
+'''
+git clone https://github.com/telegraphic/PyGSM \
+cd PyGSM
+python setup.py install
+'''
 
 The data needed for these notebooks such as the antenna beam pattern and data will be uploaded further.
 
