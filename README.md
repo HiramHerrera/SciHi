@@ -4,27 +4,17 @@ Repository for the analysis of data of SCI-HI observations, these notebooks and 
 
 Python - 2.7.15 
 
-With the libraries:
-
-Package                  Version       
-           
---------------		 -------------
-
-astropy                   2.0.8 
-
-h5py                      2.8.0 
-
-healpy                    1.12.4
-
-matplotlib                2.2.3 
-
-numpy                     1.15.1
-
-pandas                    0.23.4
-
-scipy                     1.1.0 
-
-seaborn                   0.9.0
+##Needed Libraries
+| Package | Version |               
+|---|---|
+| astropy | 2.0.8 |
+| h5py | 2.8.0 |
+| healpy | 1.12.4 |
+| matplotlib | 2.2.3 | 
+| numpy | 1.15.1 |
+| pandas | 0.23.4 |
+| scipy | 1.1.0 |
+| seaborn | 0.9.0 |
 
 
 All of these libraries, except for healpy are within the Anaconda instalation but if needed they may be installed using conda with the usual command:
@@ -40,7 +30,7 @@ conda config --add channels conda-forge
 conda install healpy
 ```
 
-Also theres a library needed to run these notebooks and codes, which is named pygsm go to https://github.com/telegraphic/PyGSM for more detailes, or if you jusst want to install this library run the following commands:
+Also theres a library needed to run these notebooks and codes, which is named [pygsm](https://github.com/telegraphic/PyGSM), if you want to install this library run the following commands:
 
 ```
 git clone https://github.com/telegraphic/PyGSM \
