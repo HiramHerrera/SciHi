@@ -6,15 +6,24 @@ Python - 2.7.15
 
 With the libraries:
 
-Package                  Version                  
+Package                  Version       
+           
 --------------		 -------------
+
 astropy                   2.0.8 
+
 h5py                      2.8.0 
+
 healpy                    1.12.4
+
 matplotlib                2.2.3 
+
 numpy                     1.15.1
+
 pandas                    0.23.4
+
 scipy                     1.1.0 
+
 seaborn                   0.9.0
 
 
