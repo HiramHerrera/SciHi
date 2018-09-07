@@ -6,7 +6,7 @@ Python - 2.7.15
 
 ##Needed Libraries
 | Package | Version |               
-|---|---|
+|---------|---------|
 | astropy | 2.0.8 |
 | h5py | 2.8.0 |
 | healpy | 1.12.4 |
