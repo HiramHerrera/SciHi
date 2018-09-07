@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import healpy as hp
 import pandas as pd
+import os
 from matplotlib import cm
 from astropy.time import Time
 from astropy.coordinates import SkyCoord
@@ -37,7 +38,7 @@ def trajectory(time,lon = -118.3011,lat = 28.9733):
     b = coords.galactic.b.degree
     return l,b
 
-def pattern(time,Freq,PATH="antenna_beam",lon = -118.3011,lat = 28.9733):
+def pattern(time,Freq,PATH="antenna_beam/",lon = -118.3011,lat = 28.9733):
     """
     Calculates the beam pattern for the antenna at a given time.
     Returns an array of l and b galactic coordinates values in degrees of the antenna pattern, 
@@ -62,7 +63,7 @@ def pattern(time,Freq,PATH="antenna_beam",lon = -118.3011,lat = 28.9733):
     lon: Default longitude is given for Isla de Guadalupe at -118.3011 degrees
     lat: Default latitud is given for Isla de Guadalupe at 28.9733 degrees
     """
-    Data = pd.read_hdf(PATH+"/0%dMHz.hdf5"%Freq) #Change path if beam pattern is changed
+    Data = pd.read_hdf(PATH+"0%dMHz.hdf5"%Freq) #Change path if beam pattern is changed
     t = Time(time, location =(lon,lat))
     LST = t.sidereal_time('mean').degree
     theta,phi = np.radians(Data.values[:,0]),np.radians(Data.values[:,1])
@@ -85,7 +86,7 @@ def pattern(time,Freq,PATH="antenna_beam",lon = -118.3011,lat = 28.9733):
     Temp = Radio_source_trans(dB,Freq,1e6)
     return l,b,Temp
 
-def convolve(time,Freq,PATH="antenna_beam"):
+def convolve(time,Freq,PATH="antenna_beam/"):
     """
     Convolves the antenna beam pattern with the gsm map of the galaxy for a given frequenacy.
     Returns the convolved temperature of the gsm.
@@ -121,7 +122,7 @@ def convolve(time,Freq,PATH="antenna_beam"):
     T_gsm = sum(bmap_gal2*bmap_pat)/sum(bmap_pat)
     return T_gsm
 
-def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam"):
+def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam/"):
     """
     Provides a table of the convolved temperature of the GSM map with the 
     Antenna beam pattern for a full day of observation, in a range of frequencies.
@@ -143,7 +144,8 @@ def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam"):
     bins: Observation interval in minutes, default is 20 minutes.
     days: Days of observation, default is 1 day.
     """
-    
+    if not os.path.exists('calibration'):
+        os.makedirs('calibration')
     Freqs = np.arange(freqs[0],freqs[1]+1)
     t0 = Time(time)
     dt = bins*u.min # Modify unit of time interval if needed
@@ -153,7 +155,7 @@ def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam"):
     i,j = 0,0
     for f in Freqs:
         for k in range(len(times)):
-            data[i,j] = convolve(times[k],f)
+            data[i,j] = convolve(times[k],f,PATH)
             j+=1
         i+=1
         j=0
