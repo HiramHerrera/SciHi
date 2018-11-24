@@ -122,7 +122,7 @@ def convolve(time,Freq,PATH="antenna_beam/"):
     T_gsm = sum(bmap_gal2*bmap_pat)/sum(bmap_pat)
     return T_gsm
 
-def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam/"):
+def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam/", OUTPUT = 'calibration'):
     """
     Provides a table of the convolved temperature of the GSM map with the 
     Antenna beam pattern for a full day of observation, in a range of frequencies.
@@ -134,18 +134,18 @@ def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam/"):
             WARNING: Make sure that time is in UTC.
     
     Optional parameters:
-    PATH: Folder where the pattern is stored, note that the files within this folder
-          must be named with its frequency, for example 70MHz.hdf5.
-         
-         Default is antenna_beam.
     freqs: Range of frequencies, must be a tuple with initial frequency and final frequency.
            Default is 50-90
     
     bins: Observation interval in minutes, default is 20 minutes.
     days: Days of observation, default is 1 day.
+    
+    OUTPUT: Output folder where the data is going to be stored.
+         
+          Default is calibration.
     """
-    if not os.path.exists('calibration'):
-        os.makedirs('calibration')
+    if not os.path.exists(OUTPUT):
+        os.makedirs(OUTPUT)
     Freqs = np.arange(freqs[0],freqs[1]+1)
     t0 = Time(time)
     dt = bins*u.min # Modify unit of time interval if needed
@@ -160,7 +160,7 @@ def T_gsm(time,freqs=(50,90),bins=20,days=1,PATH="antenna_beam/"):
         i+=1
         j=0
     df = pd.DataFrame(data,index = Freqs,columns = times.value)
-    df.to_hdf('calibration/Tgsm.hdf5','df')
+    df.to_hdf(OUTPUT+'/Tgsm.hdf5','df')
     return df
 
 def check_LST(time,lon = -118.3011,lat = 28.9733):
